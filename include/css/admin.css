@@ -1,0 +1,25 @@
+/**
+ * Style sheet for admin screen
+ */
+
+.suf-bpp-wrapper { width: 95%; margin: 2em auto; padding: 1em; background: #fff; border: 1px solid #ccc; font-family: Tahoma, Geneva, sans-serif; min-width: 700px; line-height: 1.4em; }
+fieldset { border: 1px dotted #ccc; padding: 1em; margin: 1em 0 0; }
+legend { padding: 5px 10px; background: #333; color: #eee; font-weight: bold; }
+input[type='checkbox'] { margin: 0 1em; }
+.suf-loader {
+	top: 100px;
+	left: 200px;
+	width: 95%;
+	height:100%;
+	position: fixed;
+	background-color: #fff;
+	filter: alpha(opacity=80); /* here you can set the opacity of box with text */
+	-moz-opacity: 0.8; /* here you can set the opacity of box with text */
+	-khtml-opacity: 0.8; /* here you can set the opacity of box with text */
+	opacity: 0.8; /* here you can set the opacity of box with text */
+}
+.suf-loader img { padding-top: 25%; padding-left: 40%; }
+
+
+.suf-bpp-wrapper, fieldset { border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; -khtml-border-radius: 5px; }
+legend { border-radius: 20px; -moz-border-radius: 20px; -webkit-border-radius: 20px; -khtml-border-radius: 20px; }
