@@ -15,64 +15,92 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-//global $suffusion_options_intro_page;
-
 class Suffusion_BP_Pack {
+	var $third_party_plugins;
 	function Suffusion_BP_Pack() {
 		if (!function_exists('bp_is_group')) { return false; }
 
-		add_action('admin_menu', array(&$this, 'suffusion_add_bp_admin'));
-		add_action('admin_enqueue_scripts', array(&$this, 'suffusion_add_bp_admin_scripts'));
+		add_action('admin_menu', array(&$this, 'add_bp_admin'));
+		add_action('admin_enqueue_scripts', array(&$this, 'add_bp_admin_scripts'));
 
 		//Hooks for adding "Activity Stream" to the drop-down for the front page in Settings -> Reading
-		add_filter('wp_dropdown_pages', array(&$this, 'suffusion_bpp_wp_pages_filter'));
-		add_action('pre_update_option_page_on_front', array(&$this, 'suffusion_bpp_page_on_front_update'), 10, 2);
-		add_filter('page_template', array(&$this, 'suffusion_bpp_page_on_front_template'));
-		add_action('pre_get_posts', array(&$this, 'suffusion_bpp_fix_get_posts_on_activity_front'));
-		add_filter('the_posts', array(&$this, 'suffusion_bpp_fix_the_posts_on_activity_front'));
+		add_filter('wp_dropdown_pages', array(&$this, 'bpp_wp_pages_filter'));
+		add_action('pre_update_option_page_on_front', array(&$this, 'bpp_page_on_front_update'), 10, 2);
+		add_filter('page_template', array(&$this, 'bpp_page_on_front_template'));
+		add_action('pre_get_posts', array(&$this, 'bpp_fix_get_posts_on_activity_front'));
+		add_filter('the_posts', array(&$this, 'bpp_fix_the_posts_on_activity_front'));
 
-		add_action('wp_ajax_suffusion_bpp_move_template_files', array(&$this, 'suffusion_bpp_move_template_files'));
+		add_action('wp_ajax_bpp_move_template_files', array(&$this, 'bpp_move_template_files'));
+		$this->third_party_plugins = array(
+			'album' => array('name' => 'BuddyPress Album+', 'url' => 'http://wordpress.org/extend/plugins/bp-album/'),
+			'bp-links-default' => array('name' => 'BuddyPress Links', 'url' => 'http://wordpress.org/extend/plugins/buddypress-links/'),
+			'jet-event-system' => array('name' => 'Jet Event System for BuddyPress', 'url' => 'http://wordpress.org/extend/plugins/jet-event-system-for-buddypress/', 'include-root' => false),
+		);
 	}
 
-	function suffusion_add_bp_admin() {
-		add_management_page('Suffusion BuddyPress Pack', 'Suffusion BP Pack', 'manage_options', 'suffusion-bp-pack', array(&$this, 'suffusion_render_bp_options'));
+	function add_bp_admin() {
+		add_theme_page('Suffusion BuddyPress Pack', 'Suffusion BP Pack', 'edit_theme_options', 'suffusion-bp-pack', array(&$this, 'render_bp_options'));
 	}
 
-	function suffusion_add_bp_admin_scripts() {
+	function add_bp_admin_scripts() {
 		wp_enqueue_script('jquery');
 		wp_enqueue_style('suffusion-bpp-admin', plugins_url('include/css/admin.css', __FILE__), array(), '1.00');
 	}
 
-	function suffusion_bpp_recurse_print_folders($other_plugins = false) {
-		$third_party_plugins = array('album' => array('name' => 'BuddyPress Album+', 'url' => 'http://wordpress.org/extend/plugins/bp-album/'));
+	/**
+	 * Prints the list of folders in the plugin options page. The folders are printed with check-boxes to select what the user wants to copy.
+	 *
+	 * @param bool $other_plugins
+	 * @return void
+	 */
+	function bpp_recurse_print_folders($other_plugins = false) {
 		$file_path = plugin_dir_path(__FILE__)."/template";
 		$file_path = opendir($file_path);
 		echo "<ul>\n";
 		while (false !== ($folder = readdir($file_path))) {
 			if (!($folder == "." || $folder == "..")) {
-				if (!$other_plugins && !array_key_exists($folder, $third_party_plugins)) {
+				if (!$other_plugins && !array_key_exists($folder, $this->third_party_plugins)) {
 					echo "<li><input type='checkbox' checked name='bpp_folder_$folder' value='true'/>".$folder."</li>\n";
 				}
-				else if ($other_plugins && array_key_exists($folder, $third_party_plugins)) {
-					echo "<li><input type='checkbox' name='bpp_folder_$folder'/>".$folder." &ndash; <a href='".$third_party_plugins[$folder]['url']."'>".$third_party_plugins[$folder]['name']."</a></li>\n";
+				else if ($other_plugins && array_key_exists($folder, $this->third_party_plugins)) {
+					echo "<li><input type='checkbox' name='bpp_folder_$folder'/>".$folder." &ndash; <a href='".$this->third_party_plugins[$folder]['url']."'>".$this->third_party_plugins[$folder]['name']."</a></li>\n";
 				}
 			}
 		}
 		echo "</ul>\n";
 	}
 
-	function suffusion_bpp_move_template_files() {
+	function bpp_move_template_files() {
 		$source_folder = plugin_dir_path(__FILE__)."/template/";
 		$target_folder = trailingslashit(STYLESHEETPATH);
 		foreach ($_POST as $name => $value) {
 			if (strlen($name) > 11 && substr($name, 0, 11) == 'bpp_folder_') {
 				$to_copy = substr($name, 11);
-				$this->suffusion_bpp_recurse_copy($source_folder.$to_copy, $target_folder.$to_copy);
+				if (isset($this->third_party_plugins[$to_copy]) && isset($this->third_party_plugins[$to_copy]['include-root'])) {
+					$include_root = $this->third_party_plugins[$to_copy]['include-root'];
+				}
+				else {
+					$include_root = true;
+				}
+
+				if ($include_root) {
+					$this->bpp_recurse_copy($source_folder.$to_copy, $target_folder.$to_copy);
+				}
+				else {
+					$this->bpp_recurse_copy($source_folder.$to_copy, $target_folder);
+				}
 			}
 		}
 	}
 
-	function suffusion_bpp_recurse_copy($source, $target) {
+	/**
+	 * Recursively copies plugin-specific folders from the template directory to the child theme's folder.
+	 *
+	 * @param  $source
+	 * @param  $target
+	 * @return bool
+	 */
+	function bpp_recurse_copy($source, $target) {
 		$dir = @opendir($source);
 
 		if (!file_exists($target)) {
@@ -84,7 +112,7 @@ class Suffusion_BP_Pack {
 		while (false !== ($file = readdir($dir))) {
 			if (($file != '.') && ($file != '..')) {
 				if (is_dir($source.'/'.$file)) {
-					$this->suffusion_bpp_recurse_copy($source.'/'.$file, $target.'/'.$file);
+					$this->bpp_recurse_copy($source.'/'.$file, $target.'/'.$file);
 				}
 				else {
 					if (!@copy($source.'/'.$file, $target.'/'.$file)) {
@@ -104,14 +132,14 @@ class Suffusion_BP_Pack {
 	 * @param  $page_html
 	 * @return mixed
 	 */
-	function suffusion_bpp_wp_pages_filter($page_html) {
+	function bpp_wp_pages_filter($page_html) {
 		if ('page_on_front' != substr($page_html, 14, 13))
 			return $page_html;
 
 		$selected = false;
 		$page_html = str_replace('</select>', '', $page_html);
 
-		if ($this->suffusion_bpp_page_on_front() == 'activity')
+		if ($this->bpp_page_on_front() == 'activity')
 			$selected = ' selected="selected"';
 
 		$page_html .= '<option class="level-0" value="activity"'.$selected.'>'.__('Activity Stream', 'buddypress').'</option></select>';
@@ -126,7 +154,7 @@ class Suffusion_BP_Pack {
 	 * @param  $newvalue
 	 * @return bool|string
 	 */
-	function suffusion_bpp_page_on_front_update($oldvalue, $newvalue) {
+	function bpp_page_on_front_update($oldvalue, $newvalue) {
 		if (!is_admin() || !is_site_admin())
 			return false;
 
@@ -143,7 +171,7 @@ class Suffusion_BP_Pack {
 	 * @param  $template
 	 * @return string
 	 */
-	function suffusion_bpp_page_on_front_template($template) {
+	function bpp_page_on_front_template($template) {
 		global $wp_query;
 
 		if (empty($wp_query->post->ID))
@@ -158,7 +186,7 @@ class Suffusion_BP_Pack {
 	 *
 	 * @return void
 	 */
-	function suffusion_bpp_fix_get_posts_on_activity_front() {
+	function bpp_fix_get_posts_on_activity_front() {
 		global $wp_query;
 
 		if (!empty($wp_query->query_vars['page_id']) && 'activity' == $wp_query->query_vars['page_id'])
@@ -173,7 +201,7 @@ class Suffusion_BP_Pack {
 	 * @global WP_Query $wp_query WordPress query object
 	 * @return array
 	 */
-	function suffusion_bpp_fix_the_posts_on_activity_front($posts) {
+	function bpp_fix_the_posts_on_activity_front($posts) {
 		global $wp_query;
 
 		// NOTE: the double quotes around '"activity"' are thanks to our previous function bp_dtheme_fix_get_posts_on_activity_front()
@@ -189,18 +217,22 @@ class Suffusion_BP_Pack {
 	 *
 	 * @return bool|mixed|void
 	 */
-	function suffusion_bpp_page_on_front() {
+	function bpp_page_on_front() {
 		if ('page' != get_option('show_on_front'))
 			return false;
 
 		return apply_filters('suffusion_bpp_page_on_front', get_option('page_on_front'));
 	}
 
-	function suffusion_bpp_check_theme() {
-		$suffusion_theme = get_current_theme(); // Need this because a child theme might be getting used.
-		$suffusion_theme_data = get_theme($suffusion_theme);
-		//print_r($suffusion_theme_data);
-		if ($suffusion_theme_data['Template'] != 'suffusion') {
+	/**
+	 * Checks if you are using a child theme of Suffusion or not.
+	 *
+	 * @return void
+	 */
+	function bpp_check_theme() {
+		$theme = get_current_theme(); // Need this because a child theme might be getting used.
+		$theme_data = get_theme($theme);
+		if ($theme_data['Template'] != 'suffusion') {
 ?>
 		<div class="error">
 			<p>
@@ -209,7 +241,7 @@ class Suffusion_BP_Pack {
 		</div>
 <?php
 		}
-		else if ($suffusion_theme_data['Template'] == 'suffusion' && $suffusion_theme_data['Template'] == $suffusion_theme_data['Stylesheet']) {
+		else if ($theme_data['Template'] == 'suffusion' && $theme_data['Template'] == $theme_data['Stylesheet']) {
 ?>
 		<div class="error">
 			<p>
@@ -219,8 +251,8 @@ class Suffusion_BP_Pack {
 		</div>
 <?php
 		}
-		else if ($suffusion_theme_data['Template'] == 'suffusion' && $suffusion_theme_data['Template'] != $suffusion_theme_data['Stylesheet'] &&
-				isset($suffusion_theme_data['Tags']) && !in_array('buddypress', $suffusion_theme_data['Tags'])) {
+		else if ($theme_data['Template'] == 'suffusion' && $theme_data['Template'] != $theme_data['Stylesheet'] &&
+				isset($theme_data['Tags']) && !in_array('buddypress', $theme_data['Tags'])) {
 ?>
 		<div class="updated">
 			<p>
@@ -232,7 +264,7 @@ class Suffusion_BP_Pack {
 		}
 	}
 
-	function suffusion_render_bp_options() {?>
+	function render_bp_options() {?>
 			<script type="text/javascript">
 				/* <![CDATA[ */
 				$j = jQuery.noConflict();
@@ -248,7 +280,7 @@ class Suffusion_BP_Pack {
 								var form_values = bpp_build_form.serialize().replace(/%5B/g, '[').replace(/%5D/g, ']');
 
 								$j('div.suf-loader').show();
-								$j.post(ajaxurl, 'action=suffusion_bpp_move_template_files&'+form_values, function(data) {
+								$j.post(ajaxurl, 'action=bpp_move_template_files&'+form_values, function(data) {
 									$j('#suf_bpp_return_message').html("The template files have been updated.").show().fadeOut(20000);
 									$j('div.suf-loader').hide();
 								});
@@ -262,7 +294,7 @@ class Suffusion_BP_Pack {
 <div class="suf-loader"><img src='<?php echo plugins_url('include/images/ajax-loader-large.gif', __FILE__); ?>' alt='Processing'></div>
 <div class="suf-bpp-wrapper">
 	<h1>Welcome to the Suffusion BuddyPress Pack</h1>
-	<?php $this->suffusion_bpp_check_theme(); ?>
+	<?php $this->bpp_check_theme(); ?>
 	<div id="suf_bpp_return_message" class="updated"></div>
 	<p>
 		This plugin will help you if you are using BuddyPress and would like to take advantage of all the options offered
@@ -295,11 +327,11 @@ class Suffusion_BP_Pack {
 				</li>
 				<li>
 					 The files in the following <strong>standard</strong> folders will be moved. You can deselect folders that you don't want to move:
-					<?php $this->suffusion_bpp_recurse_print_folders(); ?>
+					<?php $this->bpp_recurse_print_folders(); ?>
 				</li>
 				<li>
 					In addition the selected folders from the following can be moved for specific plugins.
-					<?php $this->suffusion_bpp_recurse_print_folders(true); ?>
+					<?php $this->bpp_recurse_print_folders(true); ?>
 				</li>
 			</ol>
 

@@ -16,6 +16,8 @@
 
 	</div>
 
+	<?php do_action( 'bp_before_directory_blogs_list' ) ?>
+
 	<ul id="blogs-list" class="item-list">
 	<?php while ( bp_blogs() ) : bp_the_blog(); ?>
 

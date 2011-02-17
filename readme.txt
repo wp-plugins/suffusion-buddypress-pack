@@ -2,9 +2,9 @@
 Contributors: sayontan
 Donate link: http://www.aquoid.com/news/plugins/suffusion-buddypress-pack/
 Tags: suffusion, buddypress, template
-Requires at least: WP 3.0, BP 1.2, Suffusion 3.6.9
-Tested up to: WP 3.0.1
-Stable tag: 1.00
+Requires at least: WP 3.0, BP 1.2.6, Suffusion 3.6.9
+Tested up to: WP 3.0.5
+Stable tag: 1.01
 
 A compatibility pack for the Suffusion WordPress theme with the BuddyPress plugin.
 
@@ -29,6 +29,10 @@ significantly different between the BuddyPress Template Pack and the Suffusion t
 extension for users who want to use Suffusion for BuddyPress.
 
 == Changelog ==
+
+= 1.01 =
+Added support for <a href='http://wordpress.org/extend/plugins/buddypress-links/'>BuddyPress Links</a> and the
+<a href='http://wordpress.org/extend/plugins/jet-event-system-for-buddypress/'>Jet Event System for BuddyPress</a> plugins.
 
 = 1.00 =
 New version created

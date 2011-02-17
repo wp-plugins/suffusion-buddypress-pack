@@ -1,3 +1,5 @@
+<?php do_action( 'bp_before_group_forum_edit_form' ) ?>
+
 <?php if ( bp_has_forum_topic_posts() ) : ?>
 
 	<form action="<?php bp_forum_topic_action() ?>" method="post" id="forum-topic-form" class="standard-form">
@@ -66,3 +68,5 @@
 	</div>
 
 <?php endif;?>
+
+<?php do_action( 'bp_after_group_forum_edit_form' ) ?>

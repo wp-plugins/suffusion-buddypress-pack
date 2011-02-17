@@ -16,6 +16,8 @@
 
 	</div>
 
+<?php do_action( 'bp_before_directory_groups_list' ) ?>
+
 	<ul id="groups-list" class="item-list">
 	<?php while ( bp_groups() ) : bp_the_group(); ?>
 
@@ -49,7 +51,19 @@
 	<?php endwhile; ?>
 	</ul>
 
-	<?php do_action( 'bp_after_groups_loop' ) ?>
+<?php do_action( 'bp_after_directory_groups_list' ) ?>
+
+<div id="pag-bottom" class="pagination">
+
+	<div class="pag-count" id="group-dir-count-bottom">
+		<?php bp_groups_pagination_count() ?>
+	</div>
+
+	<div class="pagination-links" id="group-dir-pag-bottom">
+		<?php bp_groups_pagination_links() ?>
+	</div>
+
+</div>
 
 <?php else: ?>
 
@@ -58,3 +72,5 @@
 	</div>
 
 <?php endif; ?>
+
+<?php do_action( 'bp_after_groups_loop' ) ?>
