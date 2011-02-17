@@ -4,7 +4,7 @@ Donate link: http://www.aquoid.com/news/plugins/suffusion-buddypress-pack/
 Tags: suffusion, buddypress, template
 Requires at least: WP 3.0, BP 1.2.6, Suffusion 3.6.9
 Tested up to: WP 3.0.5
-Stable tag: 1.01
+Stable tag: 1.02
 
 A compatibility pack for the Suffusion WordPress theme with the BuddyPress plugin.
 

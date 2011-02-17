@@ -3,7 +3,7 @@
  * Plugin Name: Suffusion BuddyPress Pack
  * Plugin URI: http://www.aquoid.com/news/plugins/suffusion-buddypress-pack/
  * Description: This plugin is an add-on to the Suffusion WordPress Theme. It is based on the BuddyPress Template Pack, with the markup elements and enhancements specific to Suffusion.
- * Version: 1.01
+ * Version: 1.02
  * Author: Sayontan Sinha
  * Author URI: http://mynethome.net/blog
  * License: GNU General Public License (GPL), v2 (or newer)
