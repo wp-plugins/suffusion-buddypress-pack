@@ -1,0 +1,980 @@
+/**
+ * Main CSS file for BuddyPress Pack.
+ */
+div.item-list-tabs {
+	margin: 15px 0;
+	border-bottom: 1px solid #ddd;
+	overflow: hidden;
+	clear: both;
+}
+
+div.item-list-tabs ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	line-height: 200%;
+}
+
+div.item-list-tabs ul li {
+	float: left;
+	margin-right: 5px;
+}
+
+div.item-list-tabs#subnav ul li a {
+	border: none;
+	padding: 0;
+}
+
+div.item-list-tabs ul li.last { float: right; }
+
+#subnav label { display: inline; }
+
+#item-nav {
+	margin-bottom: 10px;
+}
+
+#item-nav div.item-list-tabs {
+	padding: 0;
+	margin-bottom: -1px;
+}
+
+#item-body div.item-list-tabs {
+	padding: 0;
+}
+
+#item-nav div.item-list-tabs .filter, #item-nav div.item-list-tabs .last, #item-body div.item-list-tabs .filter, #item-body div.item-list-tabs .last {
+	float: right;
+	border: none;
+}
+
+div.item-list-tabs ul li a, div.item-list-tabs ul li a:visited, div.item-list-tabs ul li a:focus, div.item-list-tabs ul li a:hover {
+	font-weight: bold;
+	text-decoration: none;
+	padding: 5px;
+}
+
+.post form#whats-new-form #whats-new-textarea, .post div.activity-comments form .ac-textarea {
+	border: none;
+	margin-bottom:10px;
+	padding:0;
+}
+
+.post form#whats-new-form textarea, .post div.activity-comments form .ac-textarea textarea {
+	border: 1px solid #999;
+	padding: 5px;
+	margin: 0;
+	width: 95%;
+	font-size: 1em;
+}
+
+.post #whats-new-options {
+	padding-right: 20px;
+}
+
+.dir-form h3, .dir-form label {
+	display: inline;
+}
+
+.dir-form h3 a.button, .dir-form h3 a.button:hover, .dir-form h3 a.button:visited {
+	font-size: 66%;
+	text-decoration: none;
+}
+
+.bp-header {
+	border-bottom: dotted 1px #ccc;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+.dir-search {
+	text-align: right;
+}
+
+.post form.standard-form label {
+	display: block;
+	margin: 1em 0 0.5em;
+	text-align: left;
+}
+
+.post form.standard-form label.textarea {
+	display: block;
+}
+
+.post form.standard-form input[type="text"], .post form.standard-form input[type="password"], .post form.standard-form textarea {
+	margin-bottom: 1em;
+	font-size: 1em;
+}
+
+#group-create-tabs li {
+	padding: 0 20px 0 0;
+}
+
+.post form.standard-form div.checkbox, .post form.standard-form div.radio {
+	display: block;
+}
+
+.post form.standard-form div.radio ul {
+	/*float: left;*/
+}
+.post form.standard-form div.checkbox label, .post form.standard-form div.radio label {
+	/*width: 200px;*/
+}
+
+.profile-fields td {
+	padding: 6px 10px;
+}
+
+.profile-fields td p {
+	margin: 0;
+	text-align: left;
+}
+
+input.settings-input:after {
+	content:".";
+	display: block;
+	height:0;
+	clear: right;
+	visibility:hidden;
+}
+
+input.settings-input { display: inline-block; }
+/* Hide from IE Mac \*/
+input.settings-input {display:block;}
+/* End hide from IE Mac */
+
+ul.item-list li:after {
+	content:".";
+	display: block;
+	height:0;
+	clear: right;
+	visibility:hidden;
+}
+
+ul.item-list li { display: inline-block; }
+/* Hide from IE Mac \*/
+ul.item-list li {display:block;}
+/* End hide from IE Mac */
+
+.standard-form .register-section {
+	border-bottom: dotted 1px #555;
+}
+
+.activity-meta {
+	width: 100%;
+	text-align: right;
+	padding: 3px 0;
+}
+
+.activity-meta a {
+	text-decoration: none;
+	border-style: solid;
+	border-width: 1px;
+	padding: 0 6px 0 6px;
+	margin-left: 5px;
+}
+
+ul.item-list li {
+	margin: 8px 0;
+}
+
+ul.item-list img.avatar {
+	float: left;
+}
+
+ul.item-list .activity-header p {
+	margin-bottom: 5px;
+}
+
+ul.item-list .activity-header {
+	border-bottom: dotted 1px #555;
+	margin-bottom: 10px;
+}
+
+ul.item-list .activity-content, ul.item-list .activity-comments {
+	padding-right: 10px;
+}
+
+ul.item-list .item-title, ul.item-list .action {
+	margin: 5px 0;
+}
+.standard-form #l3nav {
+	margin-bottom: 10px;
+}
+
+ul.item-list span.activity {
+	padding: 2px 8px;
+}
+
+.item-meta {
+	margin: 10px 0;
+}
+
+.standard-form {
+	padding: 10px;
+}
+
+/***
+ * Object Lists (groups/members/forums/blogs)
+ */
+
+ul.item-list {
+	margin: 20px 0;
+	padding: 0;
+	list-style: none;
+}
+ul.item-list li { position: relative; }
+ul.item-list div.item-avatar {
+	float: left;
+}
+
+ul.item-list div.item {
+	margin-left: 65px;
+}
+
+ul.item-list div.action {
+	position: absolute;
+	top: 0;
+	right: 15px;
+	text-align: right;
+}
+
+/***
+ * Content Object Headers
+ */
+
+#item-header { padding-bottom: 15px; overflow: hidden; padding-left: 175px; position: relative; }
+.groups .group-single #item-header, .links .single-item #item-header { padding-right: 165px; }
+#item-header-avatar, .links .item-avatar { float: left; margin-right: 15px; margin-left: -175px; position: relative; }
+#item-header-avatar { width: 160px; }
+#item-header-content { float: left; width: 100%;  position: relative; }
+#item-actions { float: right; width: 150px; margin-left: 15px; margin-right: -165px;}
+#item-actions ul { list-style: none; }
+#item-actions h5 { text-align: right; }
+.link-meta { float: left; width: 100%; display: block; margin: 0.5em 0; font-size: 90%; }
+#item-meta { float: left; }
+
+/***
+ * Activity Stream Post Form
+ */
+
+form#whats-new-form {
+	overflow: hidden;
+	padding-bottom: 20px;
+}
+form#whats-new-form #whats-new-avatar, form#whats-new-form #whats-new-avatar img.avatar {
+	float: left;
+}
+
+form#whats-new-form h5 {
+	clear: none;
+	margin-left: 76px;
+}
+
+form#whats-new-form #whats-new-content {
+	margin-left: 54px;
+	padding-left: 22px;
+}
+
+form#whats-new-form #whats-new-textarea {
+	padding: 8px;
+	border: 1px inset #ccc;
+	margin-bottom: 10px;
+}
+form#whats-new-form textarea {
+	width: 100%;
+	height: 60px;
+	font-size: 14px;
+	color: #555;
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+form#whats-new-form #whats-new-submit {
+	float: right;
+	margin: 0;
+}
+
+/***
+ * Activity Stream Post Form
+ */
+
+ul.activity-list {
+	margin: 0;
+	padding: 0;
+}
+
+ul.activity-list li {
+	overflow: hidden;
+	padding: 20px 0;
+}
+ul.activity-list li img.avatar {
+	float: left;
+	width: 60px;
+	height: 60px;
+}
+
+ul.activity-list li div.activity-content {
+	margin-left: 75px;
+}
+
+ul.activity-list li div.activity-comments {
+	margin: 15px 0 0 38px;
+}
+ul.activity-list li div.activity-comments ul li {
+	padding: 5px 0;
+}
+
+ul.activity-list li div.activity-comments img.avatar {
+	width: 25px;
+	height: 25px;
+}
+
+ul.activity-list li div.acomment-content, ul.activity-list li div.acomment-meta {
+	margin-left: 35px;
+}
+
+ul.activity-list li div.activity-inreplyto {
+	margin: 15px 0 0 75px;
+	font-size: 11px;
+}
+
+/***
+ * Input Forms
+ */
+
+/* Activity comment forms */
+
+form.ac-form { display: none; } /* JS will show this */
+
+div.activity-comments form {
+	display: none;
+	margin: 10px 0 10px 33px;
+	padding: 8px;
+}
+
+div.activity-comments div#message {
+	margin-top: 15px;
+	margin-bottom: 0;
+}
+
+div.activity-comments form.loading {
+	background-image: url(../images/ajax-loader.gif);
+	background-position: 2% 95%;
+	background-repeat: no-repeat;
+}
+
+div.activity-comments form .ac-textarea {
+	padding: 8px;
+	border: 1px inset #ccc;
+	margin-bottom: 10px;
+}
+div.activity-comments form textarea {
+	width: 100%;
+	height: 60px;
+	border: none;
+	padding: 0;
+}
+div.activity-comments form input {
+	margin-top: 5px;
+}
+
+div.activity-comments form div.ac-reply-avatar {
+	float: left;
+}
+
+	div.activity-comments form div.ac-reply-content {
+		margin-left: 25px;
+		padding-left: 15px;
+	}
+
+/* Standard Input Forms */
+
+form.standard-form label, form.standard-form span.label {
+	display: block;
+	margin: 15px 0 5px 0;
+}
+form.standard-form div.checkbox label,
+form.standard-form div.radio label {
+	font-weight: normal;
+	margin: 5px 0 0 0;
+}
+
+form.standard-form textarea {
+	width: 75%;
+	height: 120px;
+}
+
+/* Send Invites Form */
+form#send-invite-form {
+	margin-top: 20px;
+}
+
+div#invite-list {
+	height: 400px;
+	overflow: scroll;
+	padding: 5px;
+	width: 160px;
+	margin: 10px 0;
+}
+
+/* Directory search forms */
+form.dir-form div.dir-search {
+	float: right;
+	width: 45%;
+	margin: 0;
+}
+
+p.submit, div.submit {
+	border: none;
+}
+.editfield p.description { color: #333; float: none; text-align: inherit; margin: -10px 0 10px 0; text-transform: none; font-style: italic; }
+.editfield { margin-top: 10px; }
+.generic-button { padding: 0.3em 0.7em; display: block; float: left; margin: 0.5em; border: 1px solid #ccc; }
+.generic-button a { text-decoration: none; }
+#item-buttons { float: right; margin: 1em; }
+
+.ajax-loader {
+	background: url(../images/ajax-loader.gif) center left no-repeat !important;
+	padding: 8px;
+	display: none;
+}
+
+a.loading {
+	background-image: url(../images/ajax-loader.gif) !important;
+	background-position: 95% 50% !important;
+	background-repeat: no-repeat !important;
+	padding-right: 25px !important;
+}
+
+#message-threads { border-collapse: collapse; margin: 10px 0; border-top: 1px solid #ccc; }
+#message-threads td { border-bottom: 1px solid #ccc; vertical-align: middle; padding: 1em 0.5em; }
+#message-threads p { margin-bottom: 0.5em; line-height: 1.4em; }
+#message-threads .odd { background: #eee; }
+#message-threads .unread { background: #FFF9DB; }
+#message-threads .thread-count, #message-threads .thread-options { text-align: center;}
+#message-threads .unread .unread-count { padding: 0.3em 0.6em; background: #dd0000; color: #eee; }
+
+div.create-blog form.standard-form label, #bp-album-upload-form label, #link-details-form label { display: block; float: none; font-size: 1.1em; font-weight: bold; font-family: Arial, Helvetica, sans-serif; margin: 0.5em 0; width: auto; }
+div.create-blog form.standard-form input[type='text'] { width: 60%; }
+
+.notification-settings { margin: 1em 0; border-bottom:  1px dotted #ccc; }
+.notification-settings th.icon { width: 24px; }
+.notification-settings th.yes { width: 30px; }
+.notification-settings th.no { width: 30px; }
+.notification-settings th.title { padding: 6px; }
+
+#bp-album-edit-form label { float: none; width: auto; display: block; font-size: 1.1em; font-weight: bold;}
+#bp-album-edit-form input[type='text'], #bp-album-edit-form textarea { width: 80%; }
+p.picture-meta { text-align: center;}
+p.picture-meta a { padding: 0.5em 1em; }
+.standard-form div#link-url-embed div#link-url-embed-content, .standard-form div#link-url-embed div#link-url-embed-avatar, .links div.link-vote-panel div.vote-count { background-color: transparent; border: 1px solid #ccc; }
+#link-details-form.standard-form fieldset, #link-details-form.standard-form fieldset legend { background: none; border: 1px solid #ccc; }
+
+/*
+#item-body table, .post table { width: 100%; border-collapse: collapse; }
+#item-body th, .post th { text-align: left; padding: 6px;  border-bottom: 1px dotted #ccc; }
+#item-body td, .post td { padding: 6px; border-bottom: 1px dotted #ccc; }
+*/
+.post table { width: 100%; border-collapse: collapse; }
+.post th { text-align: left; padding: 6px;  border-bottom: 1px dotted #ccc; }
+.post td { padding: 6px; border-bottom: 1px dotted #ccc; }
+
+/* Light Theme Gray 2 */
+.light-theme-gray-1 #item-nav div.item-list-tabs ul li.selected {
+	background: #a5a7aa url(../images/bg-gray-1.png) repeat-x top left;
+}
+
+.light-theme-gray-1 #item-body div.item-list-tabs ul li.current a,
+.light-theme-gray-1 #item-body div.item-list-tabs ul li.current a:visited,
+.light-theme-gray-1 #item-body div.item-list-tabs ul li.current a:hover {
+	color: #787878;
+}
+
+.light-theme-gray-1 div.item-list-tabs ul li.selected a,
+.light-theme-gray-1 div.item-list-tabs ul li.selected a:visited,
+.light-theme-gray-1 div.item-list-tabs ul li.selected a:focus,
+.light-theme-gray-1 div.item-list-tabs ul li.selected a:hover,
+.light-theme-gray-1 .dir-form h3 a.button,
+.light-theme-gray-1 .dir-form h3 a.button:hover,
+.light-theme-gray-1 .dir-form h3 a.button:visited,
+.light-theme-gray-1 .standard-form a.button,
+.light-theme-gray-1 .standard-form a.button:hover,
+.light-theme-gray-1 .standard-form a.button:visited {
+	color: #444;
+}
+
+.light-theme-gray-1 #item-nav div.item-list-tabs ul li {
+	border: 1px solid #ddd;
+	border-bottom: none;
+}
+
+.light-theme-gray-1 .post form#whats-new-form,
+.light-theme-gray-1 ul.item-list
+.light-theme-gray-1 .activity,
+.light-theme-gray-1 ul.item-list .groups,
+.light-theme-gray-1 ul.item-list .blog,
+.light-theme-gray-1 ul.item-list li div.activity-comments ul li,
+.light-theme-gray-1 .standard-form, ul.item-list .member {
+	border: 1px solid #ccc;
+	background-color: #f0f0f0;
+}
+
+.light-theme-gray-1 #l3nav .current a,
+.light-theme-gray-1 #l3nav .current a:visited,
+.light-theme-gray-1  #l3nav .current a,
+.light-theme-gray-1 #l3nav .current a:visited {
+	color: #444;
+}
+
+/* Light Theme Gray 2 */
+.light-theme-gray-2 #item-nav div.item-list-tabs ul li.selected {
+	background: #636466 url(../images/bg-gray-2.png) repeat-x top left;
+}
+
+.light-theme-gray-2 #item-body div.item-list-tabs ul li.current a,
+.light-theme-gray-2 #item-body div.item-list-tabs ul li.current a:visited,
+.light-theme-gray-2 #item-body div.item-list-tabs ul li.current a:hover {
+	color: #787878;
+}
+
+.light-theme-gray-2 div.item-list-tabs ul li.selected a,
+.light-theme-gray-2 div.item-list-tabs ul li.selected a:visited,
+.light-theme-gray-2 div.item-list-tabs ul li.selected a:focus,
+.light-theme-gray-2 div.item-list-tabs ul li.selected a:hover,
+.light-theme-gray-2 .dir-form h3 a.button,
+.light-theme-gray-2 .dir-form h3 a.button:hover,
+.light-theme-gray-2 .dir-form h3 a.button:visited,
+.light-theme-gray-2 .standard-form a.button,
+.light-theme-gray-2 .standard-form a.button:hover,
+.light-theme-gray-2 .standard-form a.button:visited {
+	color: #eee;
+}
+
+.light-theme-gray-2 #item-nav div.item-list-tabs ul li {
+	border: 1px solid #ddd;
+	border-bottom: none;
+}
+
+.light-theme-gray-2 .post form#whats-new-form,
+.light-theme-gray-2 ul.item-list
+.light-theme-gray-2 .activity,
+.light-theme-gray-2 ul.item-list .groups,
+.light-theme-gray-2 ul.item-list .blog,
+.light-theme-gray-2 ul.item-list li div.activity-comments ul li,
+.light-theme-gray-2 .standard-form, ul.item-list .member {
+	border: 1px solid #ccc;
+	background-color: #f0f0f0;
+}
+
+.light-theme-gray-2 #l3nav .current a,
+.light-theme-gray-2 #l3nav .current a:visited,
+.light-theme-gray-2  #l3nav .current a,
+.light-theme-gray-2 #l3nav .current a:visited {
+	color: #787878;
+}
+
+/* Light Theme Green */
+.light-theme-green #item-nav div.item-list-tabs ul li.selected {
+	background: #528f6c url(../images/bg_green.png) repeat-x top left;
+}
+
+.light-theme-green #item-body div.item-list-tabs ul li.current a,
+.light-theme-green #item-body div.item-list-tabs ul li.current a:visited,
+.light-theme-green #item-body div.item-list-tabs ul li.current a:hover {
+	color: #528f6c;
+}
+
+.light-theme-green div.item-list-tabs ul li.selected a,
+.light-theme-green div.item-list-tabs ul li.selected a:visited,
+.light-theme-green div.item-list-tabs ul li.selected a:focus,
+.light-theme-green div.item-list-tabs ul li.selected a:hover,
+.light-theme-green .dir-form h3 a.button,
+.light-theme-green .dir-form h3 a.button:hover,
+.light-theme-green .dir-form h3 a.button:visited,
+.light-theme-green .standard-form a.button,
+.light-theme-green .standard-form a.button:hover,
+.light-theme-green .standard-form a.button:visited {
+	color: #fff;
+}
+
+.light-theme-green #item-nav div.item-list-tabs ul li {
+	border: 1px solid #ddd;
+	border-bottom: none;
+}
+
+.light-theme-green .post form#whats-new-form,
+.light-theme-green ul.item-list
+.light-theme-green .activity,
+.light-theme-green ul.item-list .groups,
+.light-theme-green ul.item-list .blog,
+.light-theme-green ul.item-list li div.activity-comments ul li,
+.light-theme-green .standard-form, ul.item-list .member {
+	border: 1px solid #ccc;
+	background-color: #EDF3E6;
+}
+
+.light-theme-green #l3nav .current a,
+.light-theme-green #l3nav .current a:visited,
+.light-theme-green  #l3nav .current a,
+.light-theme-green #l3nav .current a:visited {
+	color: #528f6c;
+}
+
+/* Light Theme Orange */
+.light-theme-orange #item-nav div.item-list-tabs ul li.selected {
+	background: #f6ac3d url(../images/bg-orange.png) repeat-x top left;
+}
+
+.light-theme-orange #item-body div.item-list-tabs ul li.current a,
+.light-theme-orange #item-body div.item-list-tabs ul li.current a:visited,
+.light-theme-orange #item-body div.item-list-tabs ul li.current a:hover {
+	color: #d05e0b;
+}
+
+.light-theme-orange div.item-list-tabs ul li.selected a,
+.light-theme-orange div.item-list-tabs ul li.selected a:visited,
+.light-theme-orange div.item-list-tabs ul li.selected a:focus,
+.light-theme-orange div.item-list-tabs ul li.selected a:hover,
+.light-theme-orange .dir-form h3 a.button,
+.light-theme-orange .dir-form h3 a.button:hover,
+.light-theme-orange .dir-form h3 a.button:visited,
+.light-theme-orange .standard-form a.button,
+.light-theme-orange .standard-form a.button:hover,
+.light-theme-orange .standard-form a.button:visited {
+	color: #fff;
+}
+
+.light-theme-orange #item-nav div.item-list-tabs ul li {
+	border: 1px solid #ddd;
+	border-bottom: none;
+}
+
+.light-theme-orange .post form#whats-new-form,
+.light-theme-orange ul.item-list
+.light-theme-orange .activity,
+.light-theme-orange ul.item-list .groups,
+.light-theme-orange ul.item-list .blog,
+.light-theme-orange ul.item-list li div.activity-comments ul li,
+.light-theme-orange .standard-form, ul.item-list .member {
+	border: 1px solid #c0c0c0;
+	background-color: #f0f0f0;
+}
+
+.light-theme-orange #l3nav .current a,
+.light-theme-orange #l3nav .current a:visited,
+.light-theme-orange  #l3nav .current a,
+.light-theme-orange #l3nav .current a:visited {
+	color: #d05e0b;
+}
+
+/* Light Theme Pale Blue */
+.light-theme-pale-blue #item-nav div.item-list-tabs ul li.selected {
+	background: #97caff url(../images/menu-light.jpg) repeat-x top left;
+}
+
+.light-theme-pale-blue #item-body div.item-list-tabs ul li.current a,
+.light-theme-pale-blue #item-body div.item-list-tabs ul li.current a:visited,
+.light-theme-pale-blue #item-body div.item-list-tabs ul li.current a:hover {
+	color: #227ad1;
+}
+
+.light-theme-pale-blue div.item-list-tabs ul li.selected a,
+.light-theme-pale-blue div.item-list-tabs ul li.selected a:visited,
+.light-theme-pale-blue div.item-list-tabs ul li.selected a:focus,
+.light-theme-pale-blue div.item-list-tabs ul li.selected a:hover,
+.light-theme-pale-blue .dir-form h3 a.button,
+.light-theme-pale-blue .dir-form h3 a.button:hover,
+.light-theme-pale-blue .dir-form h3 a.button:visited,
+.light-theme-pale-blue .standard-form a.button,
+.light-theme-pale-blue .standard-form a.button:hover,
+.light-theme-pale-blue .standard-form a.button:visited {
+	color: #444;
+}
+
+.light-theme-pale-blue #item-nav div.item-list-tabs ul li {
+	border: 1px solid #ddd;
+	border-bottom: none;
+}
+
+.light-theme-pale-blue .post form#whats-new-form,
+.light-theme-pale-blue ul.item-list
+.light-theme-pale-blue .activity,
+.light-theme-pale-blue ul.item-list .groups,
+.light-theme-pale-blue ul.item-list .blog,
+.light-theme-pale-blue ul.item-list li div.activity-comments ul li,
+.light-theme-pale-blue .standard-form, ul.item-list .member {
+	border: 1px solid #c0c0c0;
+	background-color: #f8f8ff;
+}
+
+.light-theme-pale-blue #l3nav .current a,
+.light-theme-pale-blue #l3nav .current a:visited,
+.light-theme-pale-blue  #l3nav .current a,
+.light-theme-pale-blue #l3nav .current a:visited {
+	color: #227ad1;
+}
+
+/* Light Theme Purple */
+.light-theme-purple #item-nav div.item-list-tabs ul li.selected {
+	background: #d785a7 url(../images/bg-purple.png) repeat-x top left;
+}
+
+.light-theme-purple #item-body div.item-list-tabs ul li.current a,
+.light-theme-purple #item-body div.item-list-tabs ul li.current a:visited,
+.light-theme-purple #item-body div.item-list-tabs ul li.current a:hover {
+	color: #af0a4f;
+}
+
+.light-theme-purple div.item-list-tabs ul li.selected a,
+.light-theme-purple div.item-list-tabs ul li.selected a:visited,
+.light-theme-purple div.item-list-tabs ul li.selected a:focus,
+.light-theme-purple div.item-list-tabs ul li.selected a:hover,
+.light-theme-purple .dir-form h3 a.button,
+.light-theme-purple .dir-form h3 a.button:hover,
+.light-theme-purple .dir-form h3 a.button:visited,
+.light-theme-purple .standard-form a.button,
+.light-theme-purple .standard-form a.button:hover,
+.light-theme-purple .standard-form a.button:visited {
+	color: #fff;
+}
+
+.light-theme-purple #item-nav div.item-list-tabs ul li {
+	border: 1px solid #ddd;
+	border-bottom: none;
+}
+
+.light-theme-purple .post form#whats-new-form,
+.light-theme-purple ul.item-list
+.light-theme-purple .activity,
+.light-theme-purple ul.item-list .groups,
+.light-theme-purple ul.item-list .blog,
+.light-theme-purple ul.item-list li div.activity-comments ul li,
+.light-theme-purple .standard-form, ul.item-list .member {
+	border: 1px solid #c0c0c0;
+	background-color: #f0f0f0;
+}
+
+.light-theme-purple #l3nav .current a,
+.light-theme-purple #l3nav .current a:visited,
+.light-theme-purple  #l3nav .current a,
+.light-theme-purple #l3nav .current a:visited {
+	color: #af0a4f;
+}
+
+/* Light Theme Red */
+.light-theme-red #item-nav div.item-list-tabs ul li.selected {
+	background: #ef0506 url(../images/bg-red.png) repeat-x top left;
+}
+
+.light-theme-red #item-body div.item-list-tabs ul li.current a,
+.light-theme-red #item-body div.item-list-tabs ul li.current a:visited,
+.light-theme-red #item-body div.item-list-tabs ul li.current a:hover {
+	color: #8a1717;
+}
+
+.light-theme-red div.item-list-tabs ul li.selected a,
+.light-theme-red div.item-list-tabs ul li.selected a:visited,
+.light-theme-red div.item-list-tabs ul li.selected a:focus,
+.light-theme-red div.item-list-tabs ul li.selected a:hover,
+.light-theme-red .dir-form h3 a.button,
+.light-theme-red .dir-form h3 a.button:hover,
+.light-theme-red .dir-form h3 a.button:visited,
+.light-theme-red .standard-form a.button,
+.light-theme-red .standard-form a.button:hover,
+.light-theme-red .standard-form a.button:visited {
+	color: #fff;
+}
+
+.light-theme-red #item-nav div.item-list-tabs ul li {
+	border: 1px solid #ddd;
+	border-bottom: none;
+}
+
+.light-theme-red .post form#whats-new-form,
+.light-theme-red ul.item-list
+.light-theme-red .activity,
+.light-theme-red ul.item-list .groups,
+.light-theme-red ul.item-list .blog,
+.light-theme-red ul.item-list li div.activity-comments ul li,
+.light-theme-red .standard-form, ul.item-list .member {
+	border: 1px solid #c0c0c0;
+	background-color: #f0f0f0;
+}
+
+.light-theme-red #l3nav .current a,
+.light-theme-red #l3nav .current a:visited,
+.light-theme-red  #l3nav .current a,
+.light-theme-red #l3nav .current a:visited {
+	color: #8a1717;
+}
+
+/* Light Theme Royal Blue */
+.light-theme-royal-blue #item-nav div.item-list-tabs ul li.selected {
+	background: #0052a4 url(../images/menu-dark.jpg) repeat-x top left;
+}
+
+.light-theme-royal-blue #item-body div.item-list-tabs ul li.current a,
+.light-theme-royal-blue #item-body div.item-list-tabs ul li.current a:visited,
+.light-theme-royal-blue #item-body div.item-list-tabs ul li.current a:hover {
+	color: #227ad1;
+}
+
+.light-theme-royal-blue div.item-list-tabs ul li.selected a,
+.light-theme-royal-blue div.item-list-tabs ul li.selected a:visited,
+.light-theme-royal-blue div.item-list-tabs ul li.selected a:focus,
+.light-theme-royal-blue div.item-list-tabs ul li.selected a:hover,
+.light-theme-royal-blue .dir-form h3 a.button,
+.light-theme-royal-blue .dir-form h3 a.button:hover,
+.light-theme-royal-blue .dir-form h3 a.button:visited,
+.light-theme-royal-blue .standard-form a.button,
+.light-theme-royal-blue .standard-form a.button:hover,
+.light-theme-royal-blue .standard-form a.button:visited {
+	color: #fff;
+}
+
+.light-theme-royal-blue #item-nav div.item-list-tabs ul li {
+	border: 1px solid #ddd;
+	border-bottom: none;
+}
+
+.light-theme-royal-blue .post form#whats-new-form,
+.light-theme-royal-blue ul.item-list
+.light-theme-royal-blue .activity,
+.light-theme-royal-blue ul.item-list .groups,
+.light-theme-royal-blue ul.item-list .blog,
+.light-theme-royal-blue ul.item-list li div.activity-comments ul li,
+.light-theme-royal-blue .standard-form, ul.item-list .member {
+	border: 1px solid #B6D1E4;
+	background-color: #f8f8ff;
+}
+
+.light-theme-royal-blue #l3nav .current a,
+.light-theme-royal-blue #l3nav .current a:visited,
+.light-theme-royal-blue  #l3nav .current a,
+.light-theme-royal-blue #l3nav .current a:visited {
+	color: #227ad1;
+}
+
+/* Minima */
+.minima div.item-list-tabs {
+	border-bottom: 1px solid #ddd;
+}
+
+.minima div.item-list-tabs#subnav ul li a {
+	border: none;
+}
+
+.minima #item-nav div.item-list-tabs .filter,
+.minima #item-nav div.item-list-tabs .last,
+.minima #item-body div.item-list-tabs .filter,
+.minima #item-body div.item-list-tabs .last {
+	border: none;
+}
+
+.minima .post form#whats-new-form #whats-new-textarea,
+.minima .post div.activity-comments form .ac-textarea {
+	border: none;
+}
+
+.minima .post form#whats-new-form textarea,
+.minima .post div.activity-comments form .ac-textarea textarea {
+	border: 1px solid #999;
+}
+
+.minima .bp-header {
+	border-bottom: dotted 1px #ccc;
+}
+.minima .standard-form .register-section {
+	border-bottom: dotted 1px #555;
+}
+
+.minima .activity-meta a {
+	border-style: solid;
+	border-width: 1px;
+}
+
+.minima ul.item-list .activity-header {
+	border-bottom: dotted 1px #555;
+}
+
+.minima form#whats-new-form #whats-new-textarea {
+	border: 1px inset #ccc;
+}
+.minima form#whats-new-form textarea {
+	border: none;
+}
+
+.minima div.activity-comments form .ac-textarea {
+	border: 1px inset #ccc;
+}
+.minima div.activity-comments form textarea {
+	border: none;
+}
+.minima p.submit,
+.minima div.submit {
+	border: none;
+}
+
+
+/* Dark Styles */
+.dark-style #item-nav div.item-list-tabs ul li {
+	border: 1px solid #555;
+	border-bottom: none;
+}
+
+.dark-style #item-nav div.item-list-tabs,
+.dark-style #group-create-tabs {
+	border-bottom: 1px solid #555;
+}
+
+.dark-style .post form#whats-new-form textarea,
+.dark-style .post .standard-form textarea {
+	border: solid 1px #555;
+	background-color: #333;
+}
+
+.dark-style form#whats-new-form select,
+.dark-style #item-nav select,
+.dark-style #item-body select,
+.dark-style #subnav select,
+.dark-style .post .standard-form select,
+.dark-style input[type="password"] {
+	border: solid 1px #555;
+	background-color: #333;
+	color: #999;
+}
+
+.dark-style .bp-header { border-bottom: dotted 1px #555; }
+
+.dark-style .post form#whats-new-form,
+.dark-style ul.item-list .activity,
+.dark-style ul.item-list .groups,
+.dark-style ul.item-list .blog,
+.dark-style ul.item-list li div.activity-comments ul li,
+.dark-style .standard-form, ul.item-list .member {
+	background-color: #222;
+	border: 1px solid #555;
+}
+
+.dark-style .activity-meta a { border-color: #333; }
+.dark-style .editfield p.description { color: #666; }
+.dark-style .generic-button { border: 1px solid #333; }
+
+.dark-style #message-threads { border-top: 1px solid #222; }
+.dark-style #message-threads td { border-bottom: 1px solid #222; }
+.dark-style #message-threads .odd { background: #111; }
+.dark-style #message-threads .unread { background: #444; }
+
+.dark-style .standard-form div#link-url-embed div#link-url-embed-content,
+.dark-style .standard-form div#link-url-embed div#link-url-embed-avatar,
+.dark-style .links div.link-vote-panel div.vote-count,
+.dark-style #link-details-form.standard-form fieldset,
+.dark-style #link-details-form.standard-form fieldset legend {
+	border: 1px solid #444;
+}
+
+.dark-style .post th { border-bottom: 1px dotted #333; }
+.dark-style .post td { border-bottom: 1px dotted #333; }
+
+.dark-style .notification-settings th { border-bottom: 1px dotted #333;}
+.dark-style .notification-settings { border-bottom: 1px dotted #333; }

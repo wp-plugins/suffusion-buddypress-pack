@@ -2,9 +2,9 @@
 Contributors: sayontan
 Donate link: http://www.aquoid.com/news/plugins/suffusion-buddypress-pack/
 Tags: suffusion, buddypress, template
-Requires at least: WP 3.0, BP 1.2.6, Suffusion 3.6.9
-Tested up to: WP 3.0.5
-Stable tag: 1.02
+Requires at least: WP 3.1, BP 1.2.6, Suffusion 3.7.8
+Tested up to: WP 3.2.1
+Stable tag: 1.03
 
 A compatibility pack for the Suffusion WordPress theme with the BuddyPress plugin.
 
@@ -29,6 +29,10 @@ significantly different between the BuddyPress Template Pack and the Suffusion t
 extension for users who want to use Suffusion for BuddyPress.
 
 == Changelog ==
+
+= 1.03 =
+*	<a href='http://wordpress.org/extend/plugins/cubepoints/'>CubePoints</a> is now supported. Note that you also need <a href= 'http://wordpress.org/extend/plugins/cubepoints-buddypress-integration/'>CubePoints BuddyPress Integration</a> for this.
+*	Support for BP 1.5 has been added. Note that if you are already using the plugin and you upgrade your BP installation to 1.5, you have to rebuild your files from the Suffusion BuddyPress Pack options.
 
 = 1.01 =
 Added support for <a href='http://wordpress.org/extend/plugins/buddypress-links/'>BuddyPress Links</a> and the
