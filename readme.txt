@@ -2,9 +2,9 @@
 Contributors: sayontan
 Donate link: http://www.aquoid.com/news/plugins/suffusion-buddypress-pack/
 Tags: suffusion, buddypress, template
-Requires at least: WP 3.1, BP 1.2.6, Suffusion 3.7.8
+Requires at least: WP 3.1, BP 1.2.6, Suffusion 3.9.0
 Tested up to: WP 3.2.1
-Stable tag: 1.03
+Stable tag: 1.04
 
 A compatibility pack for the Suffusion WordPress theme with the BuddyPress plugin.
 
@@ -29,6 +29,14 @@ significantly different between the BuddyPress Template Pack and the Suffusion t
 extension for users who want to use Suffusion for BuddyPress.
 
 == Changelog ==
+
+= 1.04 =
+*	Replaced call to deprecated is_site_admin() function with is_super_admin().
+*	Fixed a minor bug that was causing member lists to show up with a dark background.
+*	Added support for the new Photonique skin in Suffusion.
+*	Some buttons were not appearing for member profiles etc. That has been fixed.
+*	Some general stylesheet changes have been made to make the design look better, e.g. in the registration page.
+*	Some forms were nested several levels deep - this has been fixed.
 
 = 1.03 =
 *	<a href='http://wordpress.org/extend/plugins/cubepoints/'>CubePoints</a> is now supported. Note that you also need <a href= 'http://wordpress.org/extend/plugins/cubepoints-buddypress-integration/'>CubePoints BuddyPress Integration</a> for this.

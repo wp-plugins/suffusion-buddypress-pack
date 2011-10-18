@@ -3,7 +3,7 @@
  * Plugin Name: Suffusion BuddyPress Pack
  * Plugin URI: http://www.aquoid.com/news/plugins/suffusion-buddypress-pack/
  * Description: This plugin is an add-on to the Suffusion WordPress Theme. It is based on the BuddyPress Template Pack, with the markup elements and enhancements specific to Suffusion.
- * Version: 1.03
+ * Version: 1.04
  * Author: Sayontan Sinha
  * Author URI: http://mynethome.net/blog
  * License: GNU General Public License (GPL), v2 (or newer)
@@ -24,7 +24,7 @@ class Suffusion_BP_Pack {
 		add_action('admin_enqueue_scripts', array(&$this, 'add_bp_admin_scripts'));
 
 		//Hooks for adding "Activity Stream" to the drop-down for the front page in Settings -> Reading
-		add_filter('wp_dropdown_pages', array(&$this, 'bpp_wp_pages_filter'));
+		add_filter('wp_dropdown_pages', array(&$this, 'dropdown_pages'));
 		add_action('pre_update_option_page_on_front', array(&$this, 'bpp_page_on_front_update'), 10, 2);
 		add_filter('page_template', array(&$this, 'bpp_page_on_front_template'));
 		add_action('pre_get_posts', array(&$this, 'bpp_fix_get_posts_on_activity_front'));
@@ -38,7 +38,7 @@ class Suffusion_BP_Pack {
 			'cubepoint' => array('name' => 'Cubepoints', 'url' => 'http://wordpress.org/extend/plugins/cubepoints/'),
 		);
 
-		add_action('wp_print_styles', array(&$this, 'enqueue_styles'), 12);
+		add_action('wp_enqueue_scripts', array(&$this, 'enqueue_styles'), 12);
 	}
 
 	function add_bp_admin() {
@@ -149,7 +149,7 @@ class Suffusion_BP_Pack {
 	 * @param  $page_html
 	 * @return mixed
 	 */
-	function bpp_wp_pages_filter($page_html) {
+	function dropdown_pages($page_html) {
 		if ('page_on_front' != substr($page_html, 14, 13))
 			return $page_html;
 
@@ -172,7 +172,7 @@ class Suffusion_BP_Pack {
 	 * @return bool|string
 	 */
 	function bpp_page_on_front_update($oldvalue, $newvalue) {
-		if (!is_admin() || !is_site_admin())
+		if (!is_admin() || !is_super_admin())
 			return false;
 
 		if ('activity' == $_POST['page_on_front'])
@@ -246,7 +246,7 @@ class Suffusion_BP_Pack {
 	 *
 	 * @return void
 	 */
-	function bpp_check_theme() {
+	function check_theme() {
 		$theme = get_current_theme(); // Need this because a child theme might be getting used.
 		$theme_data = get_theme($theme);
 		if ($theme_data['Template'] != 'suffusion') {
@@ -311,7 +311,7 @@ class Suffusion_BP_Pack {
 <div class="suf-loader"><img src='<?php echo plugins_url('include/images/ajax-loader-large.gif', __FILE__); ?>' alt='Processing'></div>
 <div class="suf-bpp-wrapper">
 	<h1>Welcome to the Suffusion BuddyPress Pack</h1>
-	<?php $this->bpp_check_theme(); ?>
+	<?php $this->check_theme(); ?>
 	<div id="suf_bpp_return_message" class="updated"></div>
 	<p>
 		This plugin will help you if you are using BuddyPress and would like to take advantage of all the options offered
@@ -414,7 +414,7 @@ class Suffusion_BP_Pack {
 			<li>Groups: <a href="<?php echo get_option('home').'/'.BP_GROUPS_SLUG.'/'; ?>"><?php echo get_option('home').'/'.BP_GROUPS_SLUG.'/'; ?></a></li>
 			<li>Forums: <a href="<?php echo get_option('home').'/'.BP_FORUMS_SLUG.'/'; ?>"><?php echo get_option('home').'/'.BP_FORUMS_SLUG.'/'; ?></a></li>
 			<li>Register: <a href="<?php echo get_option('home').'/'.BP_REGISTER_SLUG.'/'; ?>"><?php echo get_option('home').'/'.BP_REGISTER_SLUG.'/'; ?></a> (registration must be enabled)</li>
-		<?php if (bp_core_is_multisite()) { ?>
+		<?php if (is_multisite()) { ?>
 			<li>Blogs: <a href="<?php echo get_option('home').'/'.BP_BLOGS_SLUG.'/'; ?>"><?php echo get_option('home').'/'.BP_BLOGS_SLUG.'/'; ?></a></li>
 		<?php } ?>
 		</ol>
@@ -429,6 +429,40 @@ function init_suffusion_bp_pack() {
 	global $Suffusion_BP_Pack;
 	$Suffusion_BP_Pack = new Suffusion_BP_Pack();
 }
+
+add_action('after_setup_theme', 'suffusion_bpp_after_setup_theme');
+function suffusion_bpp_after_setup_theme() {
+	if (!is_admin()) {
+		// Register buttons for the relevant component templates
+		// Friends button
+		if (bp_is_active('friends')) {
+			add_action('bp_member_header_actions', 'bp_add_friend_button');
+		}
+
+		// Activity button
+		if (bp_is_active('activity')) {
+			add_action('bp_member_header_actions', 'bp_send_public_message_button');
+		}
+
+		// Messages button
+		if (bp_is_active('messages')) {
+			add_action('bp_member_header_actions', 'bp_send_private_message_button');
+		}
+
+		// Group buttons
+		if (bp_is_active('groups')) {
+			add_action('bp_group_header_actions', 'bp_group_join_button');
+			add_action('bp_group_header_actions', 'bp_group_new_topic_button');
+			add_action('bp_directory_groups_actions', 'bp_group_join_button');
+		}
+
+		// Blog button
+		if (bp_is_active('blogs')) {
+			add_action('bp_directory_blogs_actions', 'bp_blogs_visit_blog_button');
+		}
+	}
+}
+
 
 if (!function_exists('suffusion_bp_content_class')) {
 	/**

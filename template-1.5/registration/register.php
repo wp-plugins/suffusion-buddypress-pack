@@ -5,7 +5,7 @@
 		<?php do_action('bp_before_register_page') ?>
 		<div <?php suffusion_bp_content_class(); ?> >
 
-		<div class="page" id="register-page">
+		<div id="register-page">
 
 			<form action="" name="signup_form" id="signup_form" class="standard-form" method="post" enctype="multipart/form-data">
 
