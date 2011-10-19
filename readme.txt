@@ -4,7 +4,7 @@ Donate link: http://www.aquoid.com/news/plugins/suffusion-buddypress-pack/
 Tags: suffusion, buddypress, template
 Requires at least: WP 3.1, BP 1.2.6, Suffusion 3.9.0
 Tested up to: WP 3.2.1
-Stable tag: 1.04
+Stable tag: 1.05
 
 A compatibility pack for the Suffusion WordPress theme with the BuddyPress plugin.
 
@@ -29,6 +29,9 @@ significantly different between the BuddyPress Template Pack and the Suffusion t
 extension for users who want to use Suffusion for BuddyPress.
 
 == Changelog ==
+
+= 1.05 =
+*	Added a "function_exists" check for bp_is_active, otherwise the code is collapsing for BP 1.2.x.
 
 = 1.04 =
 *	Replaced call to deprecated is_site_admin() function with is_super_admin().

@@ -3,7 +3,7 @@
  * Plugin Name: Suffusion BuddyPress Pack
  * Plugin URI: http://www.aquoid.com/news/plugins/suffusion-buddypress-pack/
  * Description: This plugin is an add-on to the Suffusion WordPress Theme. It is based on the BuddyPress Template Pack, with the markup elements and enhancements specific to Suffusion.
- * Version: 1.04
+ * Version: 1.05
  * Author: Sayontan Sinha
  * Author URI: http://mynethome.net/blog
  * License: GNU General Public License (GPL), v2 (or newer)
@@ -435,30 +435,32 @@ function suffusion_bpp_after_setup_theme() {
 	if (!is_admin()) {
 		// Register buttons for the relevant component templates
 		// Friends button
-		if (bp_is_active('friends')) {
-			add_action('bp_member_header_actions', 'bp_add_friend_button');
-		}
+		if (function_exists('bp_is_active')) {
+			if (bp_is_active('friends')) {
+				add_action('bp_member_header_actions', 'bp_add_friend_button');
+			}
 
-		// Activity button
-		if (bp_is_active('activity')) {
-			add_action('bp_member_header_actions', 'bp_send_public_message_button');
-		}
+			// Activity button
+			if (bp_is_active('activity')) {
+				add_action('bp_member_header_actions', 'bp_send_public_message_button');
+			}
 
-		// Messages button
-		if (bp_is_active('messages')) {
-			add_action('bp_member_header_actions', 'bp_send_private_message_button');
-		}
+			// Messages button
+			if (bp_is_active('messages')) {
+				add_action('bp_member_header_actions', 'bp_send_private_message_button');
+			}
 
-		// Group buttons
-		if (bp_is_active('groups')) {
-			add_action('bp_group_header_actions', 'bp_group_join_button');
-			add_action('bp_group_header_actions', 'bp_group_new_topic_button');
-			add_action('bp_directory_groups_actions', 'bp_group_join_button');
-		}
+			// Group buttons
+			if (bp_is_active('groups')) {
+				add_action('bp_group_header_actions', 'bp_group_join_button');
+				add_action('bp_group_header_actions', 'bp_group_new_topic_button');
+				add_action('bp_directory_groups_actions', 'bp_group_join_button');
+			}
 
-		// Blog button
-		if (bp_is_active('blogs')) {
-			add_action('bp_directory_blogs_actions', 'bp_blogs_visit_blog_button');
+			// Blog button
+			if (bp_is_active('blogs')) {
+				add_action('bp_directory_blogs_actions', 'bp_blogs_visit_blog_button');
+			}
 		}
 	}
 }
