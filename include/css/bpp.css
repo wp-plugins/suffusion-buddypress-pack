@@ -165,18 +165,22 @@ input.settings-input {display:block;}
 	border-bottom: dotted 1px #555;
 }
 
-.activity-meta {
+.activity-meta, .acomment-options {
 	width: 100%;
 	text-align: right;
 	padding: 3px 0;
 }
 
-.activity-meta a {
+.activity-meta a, .acomment-options a {
 	text-decoration: none;
 	border-style: solid;
 	border-width: 1px;
 	padding: 0.4em 1em;
 	margin-left: 5px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-khtml-border-radius: 3px;
+	-webkit-border-radius: 3px;
 }
 
 ul.item-list li {

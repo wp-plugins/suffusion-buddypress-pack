@@ -3,7 +3,7 @@
  * Plugin Name: Suffusion BuddyPress Pack
  * Plugin URI: http://www.aquoid.com/news/plugins/suffusion-buddypress-pack/
  * Description: This plugin is an add-on to the Suffusion WordPress Theme. It is based on the BuddyPress Template Pack, with the markup elements and enhancements specific to Suffusion.
- * Version: 1.05
+ * Version: 1.06
  * Author: Sayontan Sinha
  * Author URI: http://mynethome.net/blog
  * License: GNU General Public License (GPL), v2 (or newer)
@@ -30,6 +30,8 @@ class Suffusion_BP_Pack {
 		add_action('pre_get_posts', array(&$this, 'bpp_fix_get_posts_on_activity_front'));
 		add_filter('the_posts', array(&$this, 'bpp_fix_the_posts_on_activity_front'));
 
+		add_filter('bp_field_css_classes', array(&$this, 'add_bp_specific_classes'));
+
 		add_action('wp_ajax_bpp_move_template_files', array(&$this, 'bpp_move_template_files'));
 		$this->third_party_plugins = array(
 			'album' => array('name' => 'BuddyPress Album+', 'url' => 'http://wordpress.org/extend/plugins/bp-album/'),
@@ -47,11 +49,15 @@ class Suffusion_BP_Pack {
 
 	function add_bp_admin_scripts() {
 		wp_enqueue_script('jquery');
+		wp_enqueue_style('bp-admin-bar', apply_filters('bp_core_admin_bar_css', WP_PLUGIN_URL.'/buddypress/bp-themes/bp-default/_inc/css/adminbar.css'), array(), null);
 		wp_enqueue_style('suffusion-bpp-admin', plugins_url('include/css/admin.css', __FILE__), array(), '1.00');
 	}
 
 	function enqueue_styles() {
-		wp_enqueue_style('suffusion-bpp', plugins_url('include/css/bpp.css', __FILE__), array('suffusion-theme'), '1.03');
+		if (!is_admin()) {
+			wp_enqueue_style('bp-admin-bar', apply_filters('bp_core_admin_bar_css', WP_PLUGIN_URL.'/buddypress/bp-themes/bp-default/_inc/css/adminbar.css'), array(), null);
+			wp_enqueue_style('suffusion-bpp', plugins_url('include/css/bpp.css', __FILE__), array('suffusion-theme'), '1.03');
+		}
 	}
 
 	/**
@@ -239,6 +245,21 @@ class Suffusion_BP_Pack {
 			return false;
 
 		return apply_filters('suffusion_bpp_page_on_front', get_option('page_on_front'));
+	}
+
+	/**
+	 * Adds the "fix" class to certain BP div elements, otherwise the rendering gets spoilt if the theme is being used for BP.
+	 *
+	 * @param $css_classes
+	 * @return array
+	 */
+	function add_bp_specific_classes($css_classes) {
+		if (is_array($css_classes)) {
+			if (in_array('editfield', $css_classes)) {
+				$css_classes[] = 'fix';
+			}
+		}
+		return $css_classes;
 	}
 
 	/**
