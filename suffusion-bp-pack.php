@@ -3,7 +3,7 @@
  * Plugin Name: Suffusion BuddyPress Pack
  * Plugin URI: http://www.aquoid.com/news/plugins/suffusion-buddypress-pack/
  * Description: This plugin is an add-on to the Suffusion WordPress Theme. It is based on the BuddyPress Template Pack, with the markup elements and enhancements specific to Suffusion.
- * Version: 1.06
+ * Version: 1.10
  * Author: Sayontan Sinha
  * Author URI: http://mynethome.net/blog
  * License: GNU General Public License (GPL), v2 (or newer)
@@ -18,6 +18,9 @@
 class Suffusion_BP_Pack {
 	var $third_party_plugins;
 	function Suffusion_BP_Pack() {
+		if (!defined('SUFFUSION_BP_PACK_VERSION')) {
+			define('SUFFUSION_BP_PACK_VERSION', '1.10');
+		}
 		if (!function_exists('bp_is_group')) { return false; }
 
 		add_action('admin_menu', array(&$this, 'add_bp_admin'));
@@ -50,13 +53,30 @@ class Suffusion_BP_Pack {
 	function add_bp_admin_scripts() {
 		wp_enqueue_script('jquery');
 		wp_enqueue_style('bp-admin-bar', apply_filters('bp_core_admin_bar_css', WP_PLUGIN_URL.'/buddypress/bp-themes/bp-default/_inc/css/adminbar.css'), array(), null);
-		wp_enqueue_style('suffusion-bpp-admin', plugins_url('include/css/admin.css', __FILE__), array(), '1.00');
+		wp_enqueue_style('suffusion-bpp-admin', plugins_url('include/css/admin.css', __FILE__), array(), SUFFUSION_BP_PACK_VERSION);
 	}
 
 	function enqueue_styles() {
 		if (!is_admin()) {
 			wp_enqueue_style('bp-admin-bar', apply_filters('bp_core_admin_bar_css', WP_PLUGIN_URL.'/buddypress/bp-themes/bp-default/_inc/css/adminbar.css'), array(), null);
-			wp_enqueue_style('suffusion-bpp', plugins_url('include/css/bpp.css', __FILE__), array('suffusion-theme'), '1.03');
+			wp_enqueue_style('suffusion-bpp', plugins_url('include/css/bpp.css', __FILE__), array('suffusion-theme'), SUFFUSION_BP_PACK_VERSION);
+
+			if (!is_admin()) {
+				wp_enqueue_script('suffusion-bp-ajax-js', WP_PLUGIN_URL . '/buddypress/bp-themes/bp-default/_inc/global.js', array('jquery'), null);
+				$params = array(
+					'my_favs'           => __( 'My Favorites', 'buddypress' ),
+					'accepted'          => __( 'Accepted', 'buddypress' ),
+					'rejected'          => __( 'Rejected', 'buddypress' ),
+					'show_all_comments' => __( 'Show all comments for this thread', 'buddypress' ),
+					'show_all'          => __( 'Show all', 'buddypress' ),
+					'comments'          => __( 'comments', 'buddypress' ),
+					'close'             => __( 'Close', 'buddypress' ),
+					'view'              => __( 'View', 'buddypress' ),
+					'mark_as_fav'       => __( 'Favorite', 'buddypress' ),
+					'remove_fav'       => __( 'Remove Favorite', 'buddypress' )
+				);
+				wp_localize_script('suffusion-bp-ajax-js', 'BP_DTheme', $params); // Need this to be BP_DTheme
+			}
 		}
 	}
 
@@ -67,7 +87,10 @@ class Suffusion_BP_Pack {
 	 * @return void
 	 */
 	function bpp_recurse_print_folders($other_plugins = false) {
-		if (substr(BP_VERSION, 0, 3) == '1.5') {
+		if (substr(BP_VERSION, 0, 3) == '1.6') {
+			$file_path = plugin_dir_path(__FILE__)."/template-1.6";
+		}
+		else if (substr(BP_VERSION, 0, 3) == '1.5') {
 			$file_path = plugin_dir_path(__FILE__)."/template-1.5";
 		}
 		else {
@@ -89,7 +112,10 @@ class Suffusion_BP_Pack {
 	}
 
 	function bpp_move_template_files() {
-		if (substr(BP_VERSION, 0, 3) == '1.5') {
+		if (substr(BP_VERSION, 0, 3) == '1.6') {
+			$source_folder = plugin_dir_path(__FILE__)."/template-1.6/";
+		}
+		else if (substr(BP_VERSION, 0, 3) == '1.5') {
 			$source_folder = plugin_dir_path(__FILE__)."/template-1.5/";
 		}
 		else {
