@@ -3,8 +3,8 @@
 /**
  * BuddyPress Delete Account
  *
- * @package BuddyPress
- * @subpackage bp-default
+ * @package Suffusion BP Pack
+ * @subpackage members
  */
 
 get_header( 'buddypress' ); ?>

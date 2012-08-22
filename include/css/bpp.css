@@ -493,7 +493,14 @@ p.picture-meta a { padding: 0.5em 1em; }
 .post th { text-align: left; padding: 6px;  border-bottom: 1px dotted #ccc; }
 .post td { padding: 6px; border-bottom: 1px dotted #ccc; }
 
-/* Light Theme Gray 2 */
+/* Widgets */
+.widget_bp_core_members_widget ul li {
+	background: none;
+	padding-left: 0;
+	border-radius: 0;
+}
+
+/* Light Theme Gray 1 */
 .light-theme-gray-1 .item-list-tabs ul li.selected {
 	background: #a5a7aa url(../images/bg-gray-1.png) repeat-x top left;
 }

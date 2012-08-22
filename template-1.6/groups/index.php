@@ -3,8 +3,8 @@
 /**
  * BuddyPress - Groups Directory
  *
- * @package BuddyPress
- * @subpackage bp-default
+ * @package Suffusion BP Pack
+ * @subpackage groups
  */
 
 ?>

@@ -3,8 +3,8 @@
 /**
  * BuddyPress - Users Header
  *
- * @package BuddyPress
- * @subpackage bp-default
+ * @package Suffusion BP Pack
+ * @subpackage members
  */
 
 ?>

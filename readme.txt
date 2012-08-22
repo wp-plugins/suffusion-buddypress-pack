@@ -30,6 +30,9 @@ extension for users who want to use Suffusion for BuddyPress.
 
 == Changelog ==
 
+= 1.11 =
+*	Fixed AJAX issues for BP 1.6
+
 = 1.10 =
 *	Added support for BP 1.6
 

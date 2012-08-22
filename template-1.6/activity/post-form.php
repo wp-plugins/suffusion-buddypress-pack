@@ -3,8 +3,8 @@
 /**
  * BuddyPress - Activity Post Form
  *
- * @package BuddyPress
- * @subpackage bp-default
+ * @package Suffusion BP Pack
+ * @subpackage activity
  */
 
 ?>

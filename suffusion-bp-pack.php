@@ -1,30 +1,34 @@
 <?php
 /**
  * Plugin Name: Suffusion BuddyPress Pack
- * Plugin URI: http://www.aquoid.com/news/plugins/suffusion-buddypress-pack/
+ * Plugin URI: http://aquoid.com/news/plugins/suffusion-buddypress-pack/
  * Description: This plugin is an add-on to the Suffusion WordPress Theme. It is based on the BuddyPress Template Pack, with the markup elements and enhancements specific to Suffusion.
- * Version: 1.10
+ * Version: 1.11
  * Author: Sayontan Sinha
  * Author URI: http://mynethome.net/blog
- * License: GNU General Public License (GPL), v2 (or newer)
- * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * License: GNU General Public License (GPL), v3 (or newer)
+ * License URI: http://www.gnu.org/licenses/gpl-3.0.html
  *
- * Copyright (c) 2009 - 2010 Sayontan Sinha. All rights reserved.
+ * Copyright (c) 2009 - 2012 Sayontan Sinha. All rights reserved.
  *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-class Suffusion_BP_Pack {
-	var $third_party_plugins;
-	function Suffusion_BP_Pack() {
-		if (!defined('SUFFUSION_BP_PACK_VERSION')) {
-			define('SUFFUSION_BP_PACK_VERSION', '1.10');
-		}
-		if (!function_exists('bp_is_group')) { return false; }
+include_once(plugin_dir_path(__FILE__).'/suffusion-integration-pack.php');
 
-		add_action('admin_menu', array(&$this, 'add_bp_admin'));
-		add_action('admin_enqueue_scripts', array(&$this, 'add_bp_admin_scripts'));
+class Suffusion_BP_Pack extends Suffusion_Integration_Pack {
+	var $third_party_plugins, $templates_copied;
+	function __construct() {
+		if (!defined('SUFFUSION_BP_PACK_VERSION')) {
+			define('SUFFUSION_BP_PACK_VERSION', '1.11');
+		}
+		if (!function_exists('bp_is_group')) {
+			return false;
+		}
+
+		$this->templates_copied = false;
+		parent::__construct('Suffusion BuddyPress Pack', 'Suffusion BP Pack', 'suffusion-bp-pack', SUFFUSION_BP_PACK_VERSION);
 
 		//Hooks for adding "Activity Stream" to the drop-down for the front page in Settings -> Reading
 		add_filter('wp_dropdown_pages', array(&$this, 'dropdown_pages'));
@@ -35,7 +39,7 @@ class Suffusion_BP_Pack {
 
 		add_filter('bp_field_css_classes', array(&$this, 'add_bp_specific_classes'));
 
-		add_action('wp_ajax_bpp_move_template_files', array(&$this, 'bpp_move_template_files'));
+		add_action('wp_ajax_bpp_move_template_files', array(&$this, 'move_template_files'));
 		$this->third_party_plugins = array(
 			'album' => array('name' => 'BuddyPress Album+', 'url' => 'http://wordpress.org/extend/plugins/bp-album/'),
 			'bp-links-default' => array('name' => 'BuddyPress Links', 'url' => 'http://wordpress.org/extend/plugins/buddypress-links/'),
@@ -43,37 +47,51 @@ class Suffusion_BP_Pack {
 			'cubepoint' => array('name' => 'Cubepoints', 'url' => 'http://wordpress.org/extend/plugins/cubepoints/'),
 		);
 
-		add_action('wp_enqueue_scripts', array(&$this, 'enqueue_styles'), 12);
 	}
 
-	function add_bp_admin() {
-		add_theme_page('Suffusion BuddyPress Pack', 'Suffusion BP Pack', 'edit_theme_options', 'suffusion-bp-pack', array(&$this, 'render_bp_options'));
+	function admin_menu() {
+		if ((isset($_GET['page']) && $_GET['page'] == 'suffusion-bp-pack') && isset($_REQUEST['suffusion_copy_bp_template'])) {
+			$check = check_admin_referer('suffusion-bp-save', 'suffusion-bp-wpnonce');
+			if ($check) {
+				$this->move_template_files();
+				$this->templates_copied = true;
+			}
+		}
+
+		parent::admin_menu();
 	}
 
-	function add_bp_admin_scripts() {
-		wp_enqueue_script('jquery');
-		wp_enqueue_style('bp-admin-bar', apply_filters('bp_core_admin_bar_css', WP_PLUGIN_URL.'/buddypress/bp-themes/bp-default/_inc/css/adminbar.css'), array(), null);
-		wp_enqueue_style('suffusion-bpp-admin', plugins_url('include/css/admin.css', __FILE__), array(), SUFFUSION_BP_PACK_VERSION);
+	function add_admin_scripts($hook) {
+		if (!is_admin()) {
+			return;
+		}
+
+		if ($this->option_page == $hook) {
+			wp_enqueue_script('jquery');
+			wp_enqueue_style('bp-admin-bar', apply_filters('bp_core_admin_bar_css', WP_PLUGIN_URL.'/buddypress/bp-themes/bp-default/_inc/css/adminbar.css'), array(), null);
+			wp_enqueue_style('suffusion-bpp-admin', plugins_url('include/css/admin.css', __FILE__), array(), $this->version);
+			wp_enqueue_style('suffusion-bbpress-dosis', 'http://fonts.googleapis.com/css?family=Dosis', array(), $this->version);
+		}
 	}
 
-	function enqueue_styles() {
+	function add_scripts() {
 		if (!is_admin()) {
 			wp_enqueue_style('bp-admin-bar', apply_filters('bp_core_admin_bar_css', WP_PLUGIN_URL.'/buddypress/bp-themes/bp-default/_inc/css/adminbar.css'), array(), null);
-			wp_enqueue_style('suffusion-bpp', plugins_url('include/css/bpp.css', __FILE__), array('suffusion-theme'), SUFFUSION_BP_PACK_VERSION);
+			wp_enqueue_style('suffusion-bpp', plugins_url('include/css/bpp.css', __FILE__), array('suffusion-theme'), $this->version);
 
 			if (!is_admin()) {
 				wp_enqueue_script('suffusion-bp-ajax-js', WP_PLUGIN_URL . '/buddypress/bp-themes/bp-default/_inc/global.js', array('jquery'), null);
 				$params = array(
-					'my_favs'           => __( 'My Favorites', 'buddypress' ),
-					'accepted'          => __( 'Accepted', 'buddypress' ),
-					'rejected'          => __( 'Rejected', 'buddypress' ),
-					'show_all_comments' => __( 'Show all comments for this thread', 'buddypress' ),
-					'show_all'          => __( 'Show all', 'buddypress' ),
-					'comments'          => __( 'comments', 'buddypress' ),
-					'close'             => __( 'Close', 'buddypress' ),
-					'view'              => __( 'View', 'buddypress' ),
-					'mark_as_fav'       => __( 'Favorite', 'buddypress' ),
-					'remove_fav'       => __( 'Remove Favorite', 'buddypress' )
+					'my_favs'           => __('My Favorites', 'buddypress'),
+					'accepted'          => __('Accepted', 'buddypress'),
+					'rejected'          => __('Rejected', 'buddypress'),
+					'show_all_comments' => __('Show all comments for this thread', 'buddypress'),
+					'show_all'          => __('Show all', 'buddypress'),
+					'comments'          => __('comments', 'buddypress'),
+					'close'             => __('Close', 'buddypress'),
+					'view'              => __('View', 'buddypress'),
+					'mark_as_fav'       => __('Favorite', 'buddypress'),
+					'remove_fav'       => __('Remove Favorite', 'buddypress')
 				);
 				wp_localize_script('suffusion-bp-ajax-js', 'BP_DTheme', $params); // Need this to be BP_DTheme
 			}
@@ -111,7 +129,7 @@ class Suffusion_BP_Pack {
 		echo "</ul>\n";
 	}
 
-	function bpp_move_template_files() {
+	function move_template_files() {
 		if (substr(BP_VERSION, 0, 3) == '1.6') {
 			$source_folder = plugin_dir_path(__FILE__)."/template-1.6/";
 		}
@@ -288,85 +306,25 @@ class Suffusion_BP_Pack {
 		return $css_classes;
 	}
 
-	/**
-	 * Checks if you are using a child theme of Suffusion or not.
-	 *
-	 * @return void
-	 */
-	function check_theme() {
-		$theme = get_current_theme(); // Need this because a child theme might be getting used.
-		$theme_data = get_theme($theme);
-		if ($theme_data['Template'] != 'suffusion') {
-?>
-		<div class="error">
-			<p>
-				You are not using Suffusion or a child theme. The plugin may still be used, but you might not get the desired results with it.
-			</p>
-		</div>
-<?php
-		}
-		else if ($theme_data['Template'] == 'suffusion' && $theme_data['Template'] == $theme_data['Stylesheet']) {
-?>
-		<div class="error">
-			<p>
-				You are using Suffusion, but not a child theme. Note that any changes made using this plugin will get wiped out the next time you
-				update Suffusion. To avoid this, <a href="http://www.aquoid.com/news/plugins/suffusion-buddypress-pack/">create a child theme of Suffusion</a> and use that.
-			</p>
-		</div>
-<?php
-		}
-		else if ($theme_data['Template'] == 'suffusion' && $theme_data['Template'] != $theme_data['Stylesheet'] &&
-				isset($theme_data['Tags']) && !in_array('buddypress', $theme_data['Tags'])) {
-?>
-		<div class="updated">
-			<p>
-				You might want to add the a line that says <code>Tags: buddypress</code> to the header comments of your child theme.
-				Otherwise you will keep getting a message that says your theme is not BuddyPress capable.
-			</p>
-		</div>
-<?php
-		}
-	}
-
-	function render_bp_options() {?>
-			<script type="text/javascript">
-				/* <![CDATA[ */
-				$j = jQuery.noConflict();
-				$j(document).ready(function() {
-					$j('div.suf-loader').hide();
-					$j('#suf_bpp_return_message').hide();
-
-					$j('input.button').live("click", function() {
-						var name = this.name;
-						if (name == 'copy_template') {
-							if (confirm("This will overwrite any pre-existing BP-related sub-folders in your current theme. Are you sure you want to proceed?")) {
-								var bpp_build_form = $j('form#' + name + '_form');
-								var form_values = bpp_build_form.serialize().replace(/%5B/g, '[').replace(/%5D/g, ']');
-
-								$j('div.suf-loader').show();
-								$j.post(ajaxurl, 'action=bpp_move_template_files&'+form_values, function(data) {
-									$j('#suf_bpp_return_message').html("The template files have been updated.").show().fadeOut(20000);
-									$j('div.suf-loader').hide();
-								});
-							}
-						}
-					});
-				});
-				/* ]]> */
-			</script>
-
-<div class="suf-loader"><img src='<?php echo plugins_url('include/images/ajax-loader-large.gif', __FILE__); ?>' alt='Processing'></div>
-<div class="suf-bpp-wrapper">
+	function render_options() {?>
+<div class="suf-ip-wrapper">
 	<h1>Welcome to the Suffusion BuddyPress Pack</h1>
-	<?php $this->check_theme(); ?>
-	<div id="suf_bpp_return_message" class="updated"></div>
+	<?php
+	$this->check_theme();
+	if ($this->templates_copied) {
+		?>
+		<div id="suf_bpp_return_message" class="updated">The template files have been successfully copied.</div>
+		<?php
+	}
+	?>
+
 	<p>
 		This plugin will help you if you are using BuddyPress and would like to take advantage of all the options offered
 		by the <a href="http://www.aquoid.com/news/themes/suffusion">Suffusion</a> WordPress Theme. The plugin makes heavy use
 		of design aspects from:
 	</p>
 	<ol>
-		<li><a href="http://wordpress.org/extend/plugins/bp-template-pack/">The BuddyPress template pack</a> &ndash; All the
+		<li><a href="http://wordpress.org/extend/plugins/bp-template-pack/">The BuddyPress template pack</a> &ndash; Many
 			template files were originally created using the BP template pack, then modified to fit Suffusion's HTML markup.</li>
 		<li>The BuddyPress default theme &ndash; Various filters and actions have been borrowed from the BP default theme,
 			because this is not a BP child theme.</li>
@@ -399,7 +357,8 @@ class Suffusion_BP_Pack {
 				</li>
 			</ol>
 
-			<input name="copy_template" type="button" value="(Re)Build BP Files" class="button"/>
+			<input name="suffusion_copy_bp_template" type="submit" value="(Re)Build BP Files" class="button"/>
+			<?php wp_nonce_field('suffusion-bp-save', 'suffusion-bp-wpnonce'); ?>
 		</fieldset>
 	</form>
 
@@ -466,6 +425,8 @@ class Suffusion_BP_Pack {
 		<?php } ?>
 		</ol>
 	</fieldset>
+
+	<?php $this->other_plugins(); ?>
 </div>
 <?php
 	}
@@ -477,8 +438,11 @@ function init_suffusion_bp_pack() {
 	$Suffusion_BP_Pack = new Suffusion_BP_Pack();
 }
 
-add_action('after_setup_theme', 'suffusion_bpp_after_setup_theme');
+add_action('after_setup_theme', 'suffusion_bpp_after_setup_theme', 11);
 function suffusion_bpp_after_setup_theme() {
+	if (!(int)get_option('bp_tpack_disable_js'))
+		require_once(BP_PLUGIN_DIR . '/bp-themes/bp-default/_inc/ajax.php');
+
 	if (!is_admin()) {
 		// Register buttons for the relevant component templates
 		// Friends button
@@ -587,4 +551,3 @@ if (!function_exists('suffusion_bp_content_class')) {
 		return ' class="'.$css_class.'" ';
 	}
 }
-?>

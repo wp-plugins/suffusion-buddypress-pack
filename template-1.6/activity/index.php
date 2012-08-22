@@ -3,8 +3,8 @@
 /**
  * Template Name: BuddyPress - Activity Directory
  *
- * @package BuddyPress
- * @subpackage Theme
+ * @package Suffusion BP Pack
+ * @subpackage activity
  */
 
 ?>
