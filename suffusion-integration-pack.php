@@ -108,16 +108,19 @@ if (!class_exists('Suffusion_Integration_Pack')) {
 
 			<ul class="suf-extensions">
 				<li>
-					<a href="http://wordpress.org/extend/plugins/suffusion-buddypress-pack" class='pack pack-bp' title="Suffusion BuddyPress Pack"><span class="icon">&nbsp;</span>BuddyPress Pack</a>
+					<a href="http://wordpress.org/extend/plugins/suffusion-buddypress-pack" class='pack pack-bp' title="Suffusion BuddyPress Pack">BuddyPress Pack</a>
 				</li>
 				<li>
-					<a href="http://wordpress.org/extend/plugins/suffusion-commerce-pack" class='pack pack-cp' title="Suffusion Commerce Pack"><span class="icon">&nbsp;</span>Commerce Pack</a>
+					<a href="http://wordpress.org/extend/plugins/suffusion-commerce-pack" class='pack pack-cp' title="Suffusion Commerce Pack">Commerce Pack</a>
 				</li>
 				<li>
-					<a href="http://wordpress.org/extend/plugins/suffusion-bbpress-pack" class='pack pack-bbp' title="Suffusion bbPress Pack"><span class="icon">&nbsp;</span>bbPress Pack</a>
+					<a href="http://wordpress.org/extend/plugins/suffusion-bbpress-pack" class='pack pack-bbp' title="Suffusion bbPress Pack">bbPress Pack</a>
 				</li>
 				<li>
-					<a href="http://wordpress.org/extend/plugins/suffusion-custom-post-types" class='pack pack-cpt' title="Suffusion Custom Post Types"><span class="icon">&nbsp;</span>Custom Post Types</a>
+					<a href="http://wordpress.org/extend/plugins/suffusion-custom-post-types" class='pack pack-cpt' title="Suffusion Custom Post Types">Custom Post Types</a>
+				</li>
+				<li>
+					<a href="http://wordpress.org/extend/plugins/suffusion-shortcodes" class='pack pack-sc' title="Suffusion Shortcodes">Shortcodes</a>
 				</li>
 			</ul>
 		</fieldset>

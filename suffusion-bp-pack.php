@@ -3,7 +3,7 @@
  * Plugin Name: Suffusion BuddyPress Pack
  * Plugin URI: http://aquoid.com/news/plugins/suffusion-buddypress-pack/
  * Description: This plugin is an add-on to the Suffusion WordPress Theme. It is based on the BuddyPress Template Pack, with the markup elements and enhancements specific to Suffusion.
- * Version: 1.11
+ * Version: 1.12
  * Author: Sayontan Sinha
  * Author URI: http://mynethome.net/blog
  * License: GNU General Public License (GPL), v3 (or newer)
@@ -21,7 +21,7 @@ class Suffusion_BP_Pack extends Suffusion_Integration_Pack {
 	var $third_party_plugins, $templates_copied;
 	function __construct() {
 		if (!defined('SUFFUSION_BP_PACK_VERSION')) {
-			define('SUFFUSION_BP_PACK_VERSION', '1.11');
+			define('SUFFUSION_BP_PACK_VERSION', '1.12');
 		}
 		if (!function_exists('bp_is_group')) {
 			return false;
@@ -36,6 +36,7 @@ class Suffusion_BP_Pack extends Suffusion_Integration_Pack {
 		add_filter('page_template', array(&$this, 'bpp_page_on_front_template'));
 		add_action('pre_get_posts', array(&$this, 'bpp_fix_get_posts_on_activity_front'));
 		add_filter('the_posts', array(&$this, 'bpp_fix_the_posts_on_activity_front'));
+		add_filter('body_class', array(&$this, 'custom_background'), 15, 2);
 
 		add_filter('bp_field_css_classes', array(&$this, 'add_bp_specific_classes'));
 
@@ -68,7 +69,12 @@ class Suffusion_BP_Pack extends Suffusion_Integration_Pack {
 
 		if ($this->option_page == $hook) {
 			wp_enqueue_script('jquery');
-			wp_enqueue_style('bp-admin-bar', apply_filters('bp_core_admin_bar_css', WP_PLUGIN_URL.'/buddypress/bp-themes/bp-default/_inc/css/adminbar.css'), array(), null);
+			if (substr(BP_VERSION, 0, 3) == '1.6') {
+				wp_enqueue_style('bp-admin-bar', apply_filters('bp_core_admin_bar_css', WP_PLUGIN_URL.'/buddypress/bp-core/css/buddybar.css'), array(), null);
+			}
+			else {
+				wp_enqueue_style('bp-admin-bar', apply_filters('bp_core_admin_bar_css', WP_PLUGIN_URL.'/buddypress/bp-themes/bp-default/_inc/css/adminbar.css'), array(), null);
+			}
 			wp_enqueue_style('suffusion-bpp-admin', plugins_url('include/css/admin.css', __FILE__), array(), $this->version);
 			wp_enqueue_style('suffusion-bbpress-dosis', 'http://fonts.googleapis.com/css?family=Dosis', array(), $this->version);
 		}
@@ -76,7 +82,16 @@ class Suffusion_BP_Pack extends Suffusion_Integration_Pack {
 
 	function add_scripts() {
 		if (!is_admin()) {
-			wp_enqueue_style('bp-admin-bar', apply_filters('bp_core_admin_bar_css', WP_PLUGIN_URL.'/buddypress/bp-themes/bp-default/_inc/css/adminbar.css'), array(), null);
+			// BP admin-bar, loaded only if this is a BP installation
+			if (defined('BP_VERSION')) {
+				if (substr(BP_VERSION, 0, 3) == '1.6') {
+					$stylesheet = WP_PLUGIN_URL.'/buddypress/bp-core/css/buddybar.css';
+				}
+				else {
+					$stylesheet = WP_PLUGIN_URL.'/buddypress/bp-themes/bp-default/_inc/css/adminbar.css';
+				}
+				wp_enqueue_style('bp-admin-bar', apply_filters('bp_core_admin_bar_css', $stylesheet), array(), BP_VERSION);
+			}
 			wp_enqueue_style('suffusion-bpp', plugins_url('include/css/bpp.css', __FILE__), array('suffusion-theme'), $this->version);
 
 			if (!is_admin()) {
@@ -430,6 +445,13 @@ class Suffusion_BP_Pack extends Suffusion_Integration_Pack {
 </div>
 <?php
 	}
+
+	function custom_background($classes = array(), $class = '') {
+		if ((get_theme_mod('background_color') || get_background_image()) && !in_array('custom-background', $classes)) {
+			$classes[] = 'custom-background';
+		}
+		return $classes;
+	}
 }
 
 add_action('init', 'init_suffusion_bp_pack');
@@ -440,7 +462,7 @@ function init_suffusion_bp_pack() {
 
 add_action('after_setup_theme', 'suffusion_bpp_after_setup_theme', 11);
 function suffusion_bpp_after_setup_theme() {
-	if (!(int)get_option('bp_tpack_disable_js'))
+	if (!(int)get_option('bp_tpack_disable_js') && defined(BP_PLUGIN_DIR))
 		require_once(BP_PLUGIN_DIR . '/bp-themes/bp-default/_inc/ajax.php');
 
 	if (!is_admin()) {
@@ -504,7 +526,6 @@ if (!function_exists('suffusion_bp_content_class')) {
 		if (function_exists('bp_is_member') && bp_is_member()) $css[] = 'member';
 		if (function_exists('bp_is_user_activity') && bp_is_user_activity()) $css[] = 'user-activity';
 		if (function_exists('bp_is_user_friends_activity') && bp_is_user_friends_activity()) $css[] = 'user-friends-activity';
-		if (function_exists('bp_is_activity_permalink') && bp_is_activity_permalink()) $css[] = 'activity-permalink';
 		if (function_exists('bp_is_user_profile') && bp_is_user_profile()) $css[] = 'user-profile';
 		if (function_exists('bp_is_profile_edit') && bp_is_profile_edit()) $css[] = 'profile-edit';
 		if (function_exists('bp_is_change_avatar') && bp_is_change_avatar()) $css[] = 'change-avatar';
