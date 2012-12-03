@@ -3,7 +3,7 @@
  * Plugin Name: Suffusion BuddyPress Pack
  * Plugin URI: http://aquoid.com/news/plugins/suffusion-buddypress-pack/
  * Description: This plugin is an add-on to the Suffusion WordPress Theme. It is based on the BuddyPress Template Pack, with the markup elements and enhancements specific to Suffusion.
- * Version: 1.12
+ * Version: 1.13
  * Author: Sayontan Sinha
  * Author URI: http://mynethome.net/blog
  * License: GNU General Public License (GPL), v3 (or newer)
@@ -21,7 +21,7 @@ class Suffusion_BP_Pack extends Suffusion_Integration_Pack {
 	var $third_party_plugins, $templates_copied;
 	function __construct() {
 		if (!defined('SUFFUSION_BP_PACK_VERSION')) {
-			define('SUFFUSION_BP_PACK_VERSION', '1.12');
+			define('SUFFUSION_BP_PACK_VERSION', '1.13');
 		}
 		if (!function_exists('bp_is_group')) {
 			return false;
@@ -462,7 +462,7 @@ function init_suffusion_bp_pack() {
 
 add_action('after_setup_theme', 'suffusion_bpp_after_setup_theme', 11);
 function suffusion_bpp_after_setup_theme() {
-	if (!(int)get_option('bp_tpack_disable_js') && defined(BP_PLUGIN_DIR))
+	if (!(int)get_option('bp_tpack_disable_js') && defined('BP_PLUGIN_DIR'))
 		require_once(BP_PLUGIN_DIR . '/bp-themes/bp-default/_inc/ajax.php');
 
 	if (!is_admin()) {

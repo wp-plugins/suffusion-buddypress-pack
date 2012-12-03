@@ -30,6 +30,9 @@ extension for users who want to use Suffusion for BuddyPress.
 
 == Changelog ==
 
+= 1.13 =
+*	Fixed a bug that was causing pagination issues.
+
 = 1.12 =
 *	Removed references to a file that no longer exists in BP 1.6
 
